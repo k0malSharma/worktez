@@ -1,5 +1,6 @@
 <ng-container *ngIf="tasks | async; else loader">
     <div [ngClass]="parentComponent == 'MyDashboard' ? 'table-responsive' : ''">
+        <div style="overflow-y:auto; max-height: 600px;">
         <table class="table table-hover table-borderless">
             <thead>
                 <tr>
@@ -22,33 +23,34 @@
                         <td colspan="9" class="text-center">No tasks available</td>
                     </tr>
                 </ng-container>
-                <ng-container *ngFor="let item of tasks|async">
-                    <tr (click)="openTaskDetails(item.Id)">
-                        <td colspan="1">
-                            <app-status-icons [Status]="item.Status" [Border]="false"></app-status-icons>
-                        </td>
-                        <td colspan="1">
-                            <app-priority-icons [Priority]="item.Priority" [Border]="false"></app-priority-icons>
-                        </td>
-                        <ng-container *ngIf="parentComponent == 'Tasks'"> 
+                    <ng-container *ngFor="let item of tasks|async">
+                        <tr (click)="openTaskDetails(item.Id)">
                             <td colspan="1">
-                                <app-difficulty-icons [Difficulty]="item.Difficulty" [Border]="false"></app-difficulty-icons>
+                                <app-status-icons [Status]="item.Status" [Border]="false"></app-status-icons>
                             </td>
-                        </ng-container>
-                        <td colspan="1"><span style="font-weight:bold;" data-toggle="tooltip" data-placement="top" title="task.id">{{item.Id}}</span></td>
-                    
-                        <td [colspan]="parentComponent == 'MyDashboard' ? 5 : 3">{{item.Title}}</td>
+                            <td colspan="1">
+                                <app-priority-icons [Priority]="item.Priority" [Border]="false"></app-priority-icons>
+                            </td>
+                            <ng-container *ngIf="parentComponent == 'Tasks'"> 
+                                <td colspan="1">
+                                    <app-difficulty-icons [Difficulty]="item.Difficulty" [Border]="false"></app-difficulty-icons>
+                                </td>
+                            </ng-container>
+                            <td colspan="1"><span style="font-weight:bold;" data-toggle="tooltip" data-placement="top" title="task.id">{{item.Id}}</span></td>
                         
-                        <ng-container *ngIf="parentComponent == 'Tasks'">
-                            <td colspan="3">{{item.Assignee}}</td>
-                        </ng-container>
-                        <td colspan="2">
-                            <app-progress-graph [workdone]="item.WorkDone"></app-progress-graph>
-                        </td>                                  
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
+                            <td [colspan]="parentComponent == 'MyDashboard' ? 5 : 3">{{item.Title}}</td>
+                            
+                            <ng-container *ngIf="parentComponent == 'Tasks'">
+                                <td colspan="3">{{item.Assignee}}</td>
+                            </ng-container>
+                            <td colspan="2">
+                                <app-progress-graph [workdone]="item.WorkDone"></app-progress-graph>
+                            </td>                                  
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
     </div>
 </ng-container>
 <ng-template #loader>
